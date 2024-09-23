@@ -1,0 +1,5 @@
+```
+make compile
+
+make run
+```

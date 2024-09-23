@@ -1,2 +1,0 @@
-CPU calculations in one second: 4
-CUDA calculations in one second: 4617992

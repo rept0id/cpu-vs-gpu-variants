@@ -4,6 +4,13 @@
 
 ```
 make compile
-
 make run
+```
+
+## Developer Notes
+
+### Compile
+
+```
+make compile
 ```

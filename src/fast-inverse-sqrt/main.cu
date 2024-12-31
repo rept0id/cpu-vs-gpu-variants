@@ -6,6 +6,8 @@
 
 // Fast Inverse Square Root
 
+// todo : error handling
+
 // Fast Inverse Square Root : CPU
 void cpuFisqrt(const std::vector<float>& _arr, std::vector<float>& _result) {
     for (size_t idx = 0; idx < _arr.size(); ++idx) {
@@ -128,8 +130,12 @@ int cudaGpuFisqrtBenchmark(const std::vector<float>& _req, const int timeoutSec)
     cudaMalloc(&_reqGpu, _req.size() * sizeof(float));
     cudaMalloc(&_resGpu, _req.size() * sizeof(float));
 
-    // Copy data to GPU
+    /*** * * ***/
+
+    // Copy data from host to device
     cudaMemcpy(_reqGpu, _req.data(), _req.size() * sizeof(float), cudaMemcpyHostToDevice);
+
+    /*** * * ***/
 
     startChrono = std::chrono::high_resolution_clock::now();
     while (std::chrono::high_resolution_clock::now() - startChrono < std::chrono::seconds(timeoutSec)) {
@@ -142,9 +148,17 @@ int cudaGpuFisqrtBenchmark(const std::vector<float>& _req, const int timeoutSec)
         count++;
     }
 
+    /*** * * ***/
+
+    // We will not copy data back to host, as we care only about the count of operations done and not the results
+
+    /*** * * ***/
+
     // Free GPU memory
     cudaFree(_reqGpu);
     cudaFree(_resGpu);
+
+    /*** * * ***/
 
     return count;
 }
